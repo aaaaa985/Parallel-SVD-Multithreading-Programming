@@ -57,16 +57,7 @@ namespace
             vst1q_f64(row1 + j, r1v);
         }
         #endif
-
-        for (; j < cols; ++j)
-        {
-            double a = row0[j];
-            double b = row1[j];
-
-            row0[j] = c * a + s * b;
-            row1[j] = -s * a + c * b;
-        }
-
+        
         // 尾部处理
         for (; j < cols; ++j)
         {
@@ -311,14 +302,6 @@ namespace
         }
 
         int thread_count = get_gkh_thread_count();
-
-        // 判断SVD_THREADS环境变量是否生效
-        static bool printed_thread_config = false;
-        if (!printed_thread_config)
-        {
-            printed_thread_config = true;
-            std::cout << "[GKH CONFIG] SVD_THREADS actual = " << thread_count << "\n";
-        }
 
         if (thread_count > static_cast<int>(jobs.size()))
         {
